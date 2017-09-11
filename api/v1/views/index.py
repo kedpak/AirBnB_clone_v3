@@ -1,11 +1,12 @@
 from api.v1.views import app_views
 from flask import jsonify
-from models  import storage
+from models import storage
 
 
 @app_views.route('/status')
 def status():
     return (jsonify({"status": "OK"}))
+
 
 @app_views.route('/stats')
 def count():
@@ -16,7 +17,7 @@ def count():
         count.append(objects)
     cls_count = jsonify(
         {
-            "amenities": count[0], 
+            "amenities": count[0],
             "cities": count[1],
             "places": count[2],
             "reviews": count[3],

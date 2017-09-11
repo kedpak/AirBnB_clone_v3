@@ -7,6 +7,7 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 from models.base_model import Base
 from models import base_model, amenity, city, place, review, state, user
 
+
 class DBStorage:
     """handles long term storage of all class instances"""
     CNC = {
@@ -83,7 +84,7 @@ class DBStorage:
     def get(self, cls, id):
         """
         A method to retrieve one object.
-        Returns the object based on the class name 
+        Returns the object based on the class name
         and its ID, or None if not found
         """
         obj = self.all(cls)
@@ -91,7 +92,7 @@ class DBStorage:
             m = i.split('.')
             if (m[0] == cls and m[1] == id):
                 return j
-            
+
     def count(self, cls=None):
         """
         method to count the number of objects in storage
@@ -105,4 +106,3 @@ class DBStorage:
         else:
             obj = self.all(cls)
             return len(obj)
-                

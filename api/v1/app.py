@@ -7,13 +7,16 @@ import os
 
 app.register_blueprint(app_views)
 
+
 @app.errorhandler(404)
 def not_found(error):
     return (jsonify({"error": "Not found"}), 404)
+
 
 @app.teardown_appcontext
 def route_close(exception):
     storage.close()
 
 if __name__ == "__main__":
-    app.run(host=os.environ.get('HBNB_API_HOST'), port=os.environ.get('HBNB_API_PORT'))
+    app.run(host=os.environ.get('HBNB_API_HOST'),
+            port=os.environ.get('HBNB_API_PORT'))
