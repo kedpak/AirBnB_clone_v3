@@ -96,7 +96,7 @@ github repo
 * Kimberly Wong, [kjowong](http://github.com/kjowong) | [@kjowong](http://twitter.com/kjowong) | [kjowong@gmail.com](kjowong@gmail.com)
 * Carrie Ybay, [hicarrie](http://github.com/hicarrie) | [@hicarrie_](http://twitter.com/hicarrie_)
 * Kevin Pak (https://github.com/kedpak)
-* Chirstorpher Noveli 
+* Christopher Novelli
 ## License
 
 Public Domain, no copyright protection
