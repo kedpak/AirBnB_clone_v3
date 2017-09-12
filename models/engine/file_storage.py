@@ -5,7 +5,6 @@ Handles I/O, writing and reading, of JSON for storage of all class instances
 import json
 from models import base_model, amenity, city, place, review, state, user
 from datetime import datetime
-from models import storage
 
 strptime = datetime.strptime
 to_json = base_model.BaseModel.to_json
@@ -85,11 +84,11 @@ class FileStorage:
         Returns the object based on the class name
         and its ID, or None if not found
         """
-        for i, j in storage.all().items():
+        obj = self.all()
+        for i, j in obj.items():
             m = i.split('.')
             if (m[0] == cls and m[1] == id):
                 return j
-
 
     def count(self, cls=None):
         """
@@ -99,6 +98,7 @@ class FileStorage:
         all objects in storage.
         """
         if cls == None:
-            return len((storage.all()))
+            return len((self.all()))
         else:
-            return len((storage.all(cls)))
+            return len((self.all(cls)))
+

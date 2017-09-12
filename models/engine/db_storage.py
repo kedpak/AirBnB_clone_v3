@@ -46,7 +46,7 @@ class DBStorage:
         for class_name in self.CNC:
             if class_name == 'BaseModel':
                 continue
-            obj_class = self.__session.query()
+            obj_class = self.__session.query(
                 self.CNC.get(class_name)).all()
             for item in obj_class:
                 obj_format = "{}.{}".format(item.__class__.__name__, item.id)
@@ -86,7 +86,8 @@ class DBStorage:
         Returns the object based on the class name 
         and its ID, or None if not found
         """
-        for i, j in storage.all().items():
+        obj = self.all(cls)
+        for i, j in obj.items():
             m = i.split('.')
             if (m[0] == cls and m[1] == id):
                 return j
@@ -99,7 +100,7 @@ class DBStorage:
         all objects in storage.
         """
         if cls == None:
-            return len((storage.all()))
+            return len((self.all()))
         else:
-            return len((storage.all(cls)))
+            return len((self.all(cls)))
                 
