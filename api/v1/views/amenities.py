@@ -29,10 +29,10 @@ def amenity_get_id(amenity_id):
     get amenity which matches id
     """
     amenity = storage.get("Amenity", amenity_id)
-    if amenity_id == amenity.id:
-        json_val = amenity.to_json()
-        return (jsonify(json_val))
-    abort(404)
+    if amenity is None:
+        abort(404)
+    json_val = amenity.to_json()
+    return (jsonify(json_val))
 
 
 @app_views.route('/amenities/<amenity_id>', methods=['DELETE'])
@@ -41,12 +41,15 @@ def amenity_delete(amenity_id):
     delete amenity which matches id
     """
     amenity = storage.get("Amenity", amenity_id)
+
+    if amenity is None:
+        abort(404)
+
     empty_dict = {}
     if amenity_id == amenity.id:
         storage.delete(amenity)
         storage.save()
         return (jsonify(empty_dict))
-    abort(404)
 
 
 @app_views.route('/amenities', methods=['POST'])
