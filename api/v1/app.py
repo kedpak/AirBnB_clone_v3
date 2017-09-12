@@ -25,5 +25,5 @@ def route_close(self):
     storage.close()
 
 if __name__ == "__main__":
-    app.run(host=os.environ.get('HBNB_API_HOST'),
-            port=os.environ.get('HBNB_API_PORT'))
+    app.run(host=os.environ.get('HBNB_API_HOST', '0.0.0.0'),
+            port=os.environ.get('HBNB_API_PORT', '5000'))
