@@ -64,20 +64,9 @@ def place_post(city_id):
     new_place = Place()
 
     req = request.get_json()
-    flag1 = 0
 
     new_place.__dict__.update(req)
 
-    for i, j in storage.all("City").items():
-        if new_place.city_id == j.id:
-            flag1 = 1
-    flag2 = 0
-    for i, j in storage.all("User").items():
-        if new_place.user_id == j.id:
-            flag2 = 1
-
-    if flag1 == 0 or flag2 == 0:
-        abort(404)
     if req is None:
         return ("Not a JSON", 400)
     if 'user_id' not in req.keys():
