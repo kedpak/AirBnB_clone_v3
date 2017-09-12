@@ -6,7 +6,6 @@ from sqlalchemy import create_engine, MetaData
 from sqlalchemy.orm import sessionmaker, scoped_session
 from models.base_model import Base
 from models import base_model, amenity, city, place, review, state, user
-from models import storage
 
 class DBStorage:
     """handles long term storage of all class instances"""
@@ -15,7 +14,7 @@ class DBStorage:
         'Amenity': amenity.Amenity,
         'City': city.City,
         'Place': place.Place,
-        fr'Review': review.Review,
+        'Review': review.Review,
         'State': state.State,
         'User': user.User
     }
