@@ -46,7 +46,7 @@ class DBStorage:
         for class_name in self.CNC:
             if class_name == 'BaseModel':
                 continue
-            obj_class = self.__session.query(
+            obj_class = self.__session.query()
                 self.CNC.get(class_name)).all()
             for item in obj_class:
                 obj_format = "{}.{}".format(item.__class__.__name__, item.id)
@@ -90,7 +90,6 @@ class DBStorage:
             m = i.split('.')
             if (m[0] == cls and m[1] == id):
                 return j
-
             
     def count(self, cls=None):
         """
