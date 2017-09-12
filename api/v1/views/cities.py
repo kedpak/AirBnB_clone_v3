@@ -35,7 +35,7 @@ def cities_get_id(city_id=None):
     city = storage.get("City", city_id)
 
     if city is None:
-        abort (404)
+        abort(404)
     if city_id == city.id:
         json_val = city.to_json()
         return (jsonify(json_val))
