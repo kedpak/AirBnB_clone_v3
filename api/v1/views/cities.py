@@ -24,7 +24,7 @@ def cities_get(state_id=None):
             json_val = city.to_json()
             new_list.append(json_val)
         return (jsonify(new_list))
-
+    abort(404)
 
 @app_views.route('/cities/<city_id>', methods=['GET'])
 def cities_get_id(city_id=None):
