@@ -21,7 +21,7 @@ def not_found(error):
 
 
 @app.teardown_appcontext
-def route_close(exception):
+def route_close(self):
     storage.close()
 
 if __name__ == "__main__":
