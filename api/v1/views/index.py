@@ -14,11 +14,13 @@ def count():
     for i in cls:
         objects = storage.count(i)
         count.append(objects)
-    cls_count = jsonify({"amenities": objects, 
-            "cities": count[0],
-            "places": count[1],
-            "reviews": count[2],
-            "states": count[3],
-            "users": count[4]
-            })
+    cls_count = jsonify(
+        {
+            "amenities": count[0], 
+            "cities": count[1],
+            "places": count[2],
+            "reviews": count[3],
+            "states": count[4],
+            "users": count[5]
+        })
     return cls_count
