@@ -310,6 +310,7 @@ class TestDBGetCount(unittest.TestCase):
         self.state = State()
         self.state.name = 'Hawaii'
         self.state.save()
+        state_objs = storage.all('State')
         self.city = City()
         self.city.name = 'Honolulu'
         self.city.state_id = self.state.id
@@ -326,7 +327,7 @@ class TestDBGetCount(unittest.TestCase):
             m = i.split('.')
             if (m[0] == 'State' and m[1] == self.state.id):
                 get_works = True
-        
+
         count_works = False
         if len(state_objs) == 3:
             count_works = True
