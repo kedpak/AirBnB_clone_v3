@@ -326,13 +326,16 @@ class TestDBGetCount(unittest.TestCase):
             m = i.split('.')
             if (m[0] == 'State' and m[1] == self.state.id):
                 get_works = True
-
+        
         count_works = False
         if len(state_objs) == 3:
             count_works = True
 
         self.assertTrue(get_works)
         self.assertTrue(count_works)
+        expected = 6
+        test = len(stor_all)
+        self.assertEqual(expected, test)
 
 if __name__ == '__main__':
     unittest.main
