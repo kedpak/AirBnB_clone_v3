@@ -310,7 +310,6 @@ class TestDBGetCount(unittest.TestCase):
         self.state = State()
         self.state.name = 'Hawaii'
         self.state.save()
-        state_objs = storage.all('State')
         self.city = City()
         self.city.name = 'Honolulu'
         self.city.state_id = self.state.id
