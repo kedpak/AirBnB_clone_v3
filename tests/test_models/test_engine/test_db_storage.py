@@ -292,5 +292,50 @@ class TestPlaceDBInstances(unittest.TestCase):
         self.assertTrue(exist_in_all)
         self.assertTrue(exist_in_all_place)
 
+
+@unittest.skipIf(storage_type != 'db', 'if storage is not db')
+class TestDBGetCount(unittest.TestCase):
+    """ test get and count """
+
+    @classmethod
+    def setUpClass(cls):
+        print('\n\n.................................')
+        print('...... Testing DBStorage ............')
+        print('.........UnitTests are AWESOME........')
+        print('.......... State City ...............')
+        print('...........:)...................\n\n')
+
+    def setUp(self):
+        """ set up for testing """
+        self.state = State()
+        self.state.name = 'Hawaii'
+        self.state.save()
+        self.city = City()
+        self.city.name = 'Honolulu'
+        self.city.state_id = self.state.id
+        self.city.save()
+
+    def test_get_count(self):
+        """ test methods get and count in DBStorage """
+        stor_all = storage.all()
+        state_objs = storage.all('State')
+        city_objs = storage.all('City')
+
+        get_works = False
+        for i, j in stor_all.items():
+            m = i.split('.')
+            if (m[0] == 'State' and m[1] == self.state.id):
+                get_works = True
+        
+        count_works = False
+        if len(state_objs) == 3:
+            count_works = True
+
+        self.assertTrue(get_works)
+        self.assertTrue(count_works)
+        expected = 6
+        test = len(stor_all)
+        self.assertEqual(expected, test)
+
 if __name__ == '__main__':
     unittest.main
