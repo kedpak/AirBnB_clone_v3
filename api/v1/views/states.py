@@ -7,34 +7,72 @@ from models.state import State
 from models.engine.db_storage import DBStorage
 from api.v1.views import app_views
 
+
 @app_views.route('/states', methods=['GET'])
-@app_views.route('/states/<state_id>', methods=['GET', 'DELETE'])
-def states(state_id=None):
+def state_get():
 
     new_list = []
-    empty_dict = {}
     states = storage.all("State").items()
 
     for key, value in states:
-        if request.method == 'GET':
-            if state_id is not None:
-                if state_id == value.id:
-                    json_val = value.to_json()
-                    return (jsonify(json_val))
-                else:
-                    abort(404)
-
-            else:
-                json_val = value.to_json()
-                new_list.append(json_val)
-
-        if request.method == 'DELETE':
-            if state_id is not None:
-                if state_id == value.id:
-                    storage.delete(value)
-                    storage.save()
-                    return (jsonify(empty_dict))
-                else:
-                    abort(404)
-
+        json_val = value.to_json()
+        new_list.append(json_val)
     return (jsonify(new_list))
+
+
+@app_views.route('/states/<state_id>', methods=['GET'])
+def state_get_id(state_id):
+    states = storage.all("State").items()
+    for key, value in states:
+        if state_id == value.id:
+            json_val = value.to_json()
+            return (jsonify(json_val))
+    abort(404)
+
+
+@app_views.route('/states/<state_id>', methods=['DELETE'])
+def state_delete(state_id):
+    states = storage.all("State").items()
+    empty_dict = {}
+    for key, value in states:
+        if state_id == value.id:
+            storage.delete(value)
+            storage.save()
+            return (jsonify(empty_dict))
+    abort(404)
+
+
+@app_views.route('/states', methods=['POST'])
+def state_post():
+    new_state = State()
+
+    try:
+        req = request.get_json()
+    except:
+        return ("Not a JSON", 400)
+    if 'name' not in req.keys():
+        return ("Missing name", 400)
+
+    new_state.__dict__.update(req)
+    new_state.save()
+    return (jsonify(new_state.to_json()), 201)
+
+
+@app_views.route('/states/<state_id>', methods=['PUT'])
+def state_put(state_id):
+    try:
+        req = request.get_json()
+    except:
+        return ("Not a JSON", 400)
+
+    state = storage.get('State', state_id)
+    if state is None:
+        abort(404)
+
+    skip = ['id', 'created_at', 'updated_at', '_sa_instance_state']
+    for i in state.__dict__:
+        if i not in skip:
+            setattr(state, i, req[i])
+
+    state.save()
+    return (jsonify(state.to_json()))
