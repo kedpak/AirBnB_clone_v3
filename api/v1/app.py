@@ -1,4 +1,8 @@
 #!/usr/bin/python3
+"""
+instantiate Flask app
+register the blueprint
+"""
 from flask import Flask
 from models import storage
 from flask import jsonify
