@@ -10,7 +10,9 @@ from api.v1.views import app_views
 
 @app_views.route('/states', methods=['GET'])
 def state_get():
-
+    """
+    get list of all states
+    """
     new_list = []
     states = storage.all("State").items()
 
@@ -22,6 +24,9 @@ def state_get():
 
 @app_views.route('/states/<state_id>', methods=['GET'])
 def state_get_id(state_id):
+    """
+    get state which matches id
+    """
     states = storage.all("State").items()
     for key, value in states:
         if state_id == value.id:
@@ -32,6 +37,9 @@ def state_get_id(state_id):
 
 @app_views.route('/states/<state_id>', methods=['DELETE'])
 def state_delete(state_id):
+    """
+    delete state which matches id
+    """
     states = storage.all("State").items()
     empty_dict = {}
     for key, value in states:
@@ -44,11 +52,13 @@ def state_delete(state_id):
 
 @app_views.route('/states', methods=['POST'])
 def state_post():
+    """
+    creates new state object instance
+    """
     new_state = State()
 
-    try:
-        req = request.get_json()
-    except:
+    req = request.get_json()
+    if req is None:
         return ("Not a JSON", 400)
     if 'name' not in req.keys():
         return ("Missing name", 400)
@@ -60,11 +70,12 @@ def state_post():
 
 @app_views.route('/states/<state_id>', methods=['PUT'])
 def state_put(state_id):
-    try:
-        req = request.get_json()
-    except:
+    """
+    updates dictionary
+    """
+    req = request.get_json()
+    if req is None:
         return ("Not a JSON", 400)
-
     state = storage.get('State', state_id)
     if state is None:
         abort(404)
