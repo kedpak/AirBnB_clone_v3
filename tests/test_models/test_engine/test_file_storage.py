@@ -9,6 +9,8 @@ from models import engine
 from models.engine.file_storage import FileStorage
 import json
 import os
+from models.state import State
+from models.city import City
 
 User = models.user.User
 BaseModel = models.base_model.BaseModel
@@ -199,6 +201,55 @@ class TestUserFsInstances(unittest.TestCase):
                 actual = 1
         self.assertTrue(1 == actual)
 
+
+class TestDBGetCount(unittest.TestCase):
+    """ test get and count """
+
+    @classmethod
+    def setUpClass(cls):
+        print('\n\n.................................')
+        print('...... Testing FIleStorage ............')
+        print('.........UnitTests are AWESOME........')
+        print('.......... State City ...............')
+        print('...........:)...................\n\n')
+
+    def setUp(self):
+        """ set up for testing """
+        self.state = State()
+        self.state.name = 'Hawaii'
+        self.state.save()
+        self.city = City()
+        self.city.name = 'Honolulu'
+        self.city.state_id = self.state.id
+        self.city.save()
+
+    def test_get_count(self):
+        """ test methods get and count in DBStorage """
+        stor_all = storage.all()
+        state_objs = storage.all('State')
+        city_objs = storage.all('City')
+
+        get_works = False
+        for i, j in stor_all.items():
+            m = i.split('.')
+            if (m[0] == 'State' and m[1] == self.state.id):
+                get_works = True
+
+        count_works = False
+        count = 0
+        for i in state_objs:
+            count += 1
+        if len(state_objs) == count:
+            count_works = True
+
+        self.assertTrue(get_works)
+        self.assertTrue(count_works)
+        counts = 0
+        for j in stor_all:
+            counts += 1
+        expected = counts
+        test = len(stor_all)
+        self.assertEqual(expected, test)
 
 if __name__ == '__main__':
     unittest.main

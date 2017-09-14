@@ -328,12 +328,18 @@ class TestDBGetCount(unittest.TestCase):
                 get_works = True
 
         count_works = False
-        if len(state_objs) == 3:
+        count = 0
+        for i in state_objs:
+            count += 1
+        if len(state_objs) == count:
             count_works = True
 
         self.assertTrue(get_works)
         self.assertTrue(count_works)
-        expected = 6
+        counts = 0
+        for j in stor_all:
+            counts += 1
+        expected = counts
         test = len(stor_all)
         self.assertEqual(expected, test)
 
