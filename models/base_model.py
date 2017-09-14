@@ -95,11 +95,12 @@ class BaseModel:
         """returns json representation of self"""
         bm_dict = {}
         for key, value in (self.__dict__).items():
+            print("This is {}:{}".format(key, value))
             if key == '_sa_instance_state':
                 del key
             if (self.__is_serializable(value)):
                 bm_dict[key] = value
-            else:
+            if type(value) is datetime:
                 bm_dict[key] = str(value)
         bm_dict['__class__'] = type(self).__name__
         return(bm_dict)
