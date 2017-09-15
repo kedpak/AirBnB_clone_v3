@@ -22,7 +22,6 @@ def place_get(city_id):
     if flag1 == 0:
         abort(404)
     for key, value in place:
-        print("HEYYYYYYYYYYYYYYYYYYY", value)
         json_val = value.to_json()
         new_list.append(json_val)
     return (jsonify(new_list))
@@ -98,7 +97,6 @@ def place_put(place_id):
     if req is None:
         return ("Not a JSON", 400)
     place = storage.get('Place', place_id)
-    print("PLACE HERE", place)
     if place is None:
         abort(404)
 
@@ -115,4 +113,4 @@ def place_put(place_id):
             setattr(place, i, req[i])
 
     place.save()
-    return (jsonify(place.to_json()))
+    return (jsonify(place.to_json()), 200)
