@@ -30,7 +30,7 @@ def user_get_id(user_id):
     user = storage.get("User", user_id)
     if user is None:
         abort(404)
-    json_val = value.to_json()
+    json_val = user.to_json()
     return (jsonify(json_val))
 
 
