@@ -39,14 +39,15 @@ def user_delete(user_id):
     """
     delete state which matches id
     """
-    user = storage.all("User").items()
+    user = storage.get("User", user_id)
+    if user is None:
+        abort(404)
     empty_dict = {}
-    for key, value in user:
-        if user_id == value.id:
-            storage.delete(value)
-            storage.save()
-            return (jsonify(empty_dict))
-    abort(404)
+    if user_id == user.id:
+        storage.delete(user)
+        storage.save()
+        return (jsonify(empty_dict), 200)
+    
 
 
 @app_views.route('/users', methods=['POST'])
