@@ -84,7 +84,7 @@ def user_put(user_id):
 
     skip = ['id', 'email', 'created_at', 'updated_at', '_sa_instance_state']
     for i in user.__dict__:
-        if i not in skip:
+        if i not in skip and i in req:
             setattr(user, i, req[i])
 
     user.save()
