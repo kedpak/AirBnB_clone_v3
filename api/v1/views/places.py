@@ -22,8 +22,9 @@ def place_get(city_id):
     if flag1 == 0:
         abort(404)
     for key, value in place:
-        json_val = value.to_json()
-        new_list.append(json_val)
+        if city_id == value.city_id:
+            json_val = value.to_json()
+            new_list.append(json_val)
     return (jsonify(new_list))
 
 
