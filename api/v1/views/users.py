@@ -30,10 +30,8 @@ def user_get_id(user_id):
     user = storage.get("User", user_id)
     if user is None:
         abort(404)
-    for key, value in user:
-        if user_id == value.id:
-            json_val = value.to_json()
-            return (jsonify(json_val))
+    json_val = value.to_json()
+    return (jsonify(json_val))
 
 
 @app_views.route('/users/<user_id>', methods=['DELETE'])
