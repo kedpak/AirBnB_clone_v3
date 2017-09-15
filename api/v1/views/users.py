@@ -58,7 +58,6 @@ def user_post():
     new_user = User()
 
     req = request.get_json()
-    print(new_user)
     if req is None:
         return ("Not a JSON", 400)
     if 'email' not in req.keys():
