@@ -88,4 +88,4 @@ def user_put(user_id):
             setattr(user, i, req[i])
 
     user.save()
-    return (jsonify(user.to_json()))
+    return (jsonify(user.to_json()), 200)
