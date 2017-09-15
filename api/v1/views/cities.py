@@ -36,10 +36,8 @@ def cities_get_id(city_id=None):
 
     if city is None:
         abort(404)
-    if city_id == city.id:
-        json_val = city.to_json()
-        return (jsonify(json_val))
-    abort(404)
+    json_val = city.to_json()
+    return (jsonify(json_val))
 
 
 @app_views.route('/cities/<city_id>', methods=['DELETE'])
@@ -65,18 +63,19 @@ def city_post(state_id=None):
     creates new city object instance
     """
     state = storage.get("State", state_id)
+
     if state is None:
         abort(404)
 
     new_city = City()
     req = request.get_json()
-    req['state_id'] = state_id
 
     if req is None:
         return ("Not a JSON", 400)
     if 'name' not in req.keys():
         return ("Missing name", 400)
 
+    req['state_id'] = state_id
     new_city.__dict__.update(req)
     new_city.save()
     return (jsonify(new_city.to_json()), 201)
@@ -100,4 +99,4 @@ def city_put(city_id):
         if i not in skip and i in req:
             setattr(city, i, req[i])
     city.save()
-    return (jsonify(city.to_json()))
+    return (jsonify(city.to_json()), 200)
