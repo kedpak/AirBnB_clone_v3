@@ -67,7 +67,7 @@ def place_post(city_id):
 
     city = storage.get("City", city_id)
     user = storage.get("User", req.get("user_id"))
-    if user is None or city is None:
+    if city is None:
         abort(404)
     if req is None:
         return ("Not a JSON", 400)
@@ -75,6 +75,8 @@ def place_post(city_id):
         return ("Missing email", 400)
     if 'name' not in req.keys():
         return ("Missing password", 400)
+    if user is None:
+        abort(404)
 
     req["city_id"] = city_id
     new_place.__dict__.update(req)
