@@ -65,6 +65,10 @@ def place_post(city_id):
 
     req = request.get_json()
 
+    city = storage.get("City", city_id)
+    user = storage.get("User", req.get("user_id"))
+    if user is None or city is None:
+        abort(404)
     if req is None:
         return ("Not a JSON", 400)
     if 'user_id' not in req.keys():
@@ -72,6 +76,7 @@ def place_post(city_id):
     if 'name' not in req.keys():
         return ("Missing password", 400)
 
+    req["city_id"] = city_id
     new_place.__dict__.update(req)
     new_place.save()
     return (jsonify(new_place.to_json()), 201)
