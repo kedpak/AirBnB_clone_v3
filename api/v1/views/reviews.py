@@ -14,18 +14,15 @@ def review_get(place_id):
     get list of all states
     """
     new_list = []
-    review = storage.all("Review").items()
-    flag1 = 0
-    for i, j in storage.all("Place").items():
-        if place_id == j.id:
-            flag1 = 1
-    if flag1 == 0:
-        abort(404)
+    place = storage.get('Place', place_id)
 
-    for key, value in review:
-        json_val = value.to_json()
-        new_list.append(json_val)
-    return (jsonify(new_list))
+    if place is None:
+        abort(404)
+    else:
+        for review in place.reviews:
+            json_val = value.to_json()
+            new_list.append(json_val)
+        return (jsonify(new_list))
 
 
 @app_views.route('/reviews/<review_id>', methods=['GET'])
