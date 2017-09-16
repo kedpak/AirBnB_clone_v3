@@ -78,6 +78,7 @@ def review_post(place_id):
 
     req = request.get_json()
 
+    new_review.__dict__.update(req)
     if req is None:
         return ("Not a JSON", 400)
     if 'user_id' not in req.keys():
@@ -85,7 +86,18 @@ def review_post(place_id):
     if 'text' not in req.keys():
         return ("Missing test", 400)
 
-    new_review.__dict__.update(req)
+    flag = 0
+    flag2 = 0
+
+    for i, j in storage.all("Place").items():
+        if place_id == j.id:
+            flag = 1
+    for i, j in storage.all("User").items():
+        if new_review.user_id == j.id:
+            flag2 = 1
+    if flag == 0 or flag2 == 0:
+        abort(404)
+
     new_review.save()
     return (jsonify(new_review.to_json()), 201)
 
