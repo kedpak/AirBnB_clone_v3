@@ -83,6 +83,9 @@ def review_post(place_id):
 
     if storage.get("Place", place_id) is None:
         abort(404)
+    if storage.get("User", req.get("user_id")) is None:
+        abort(404)
+    
     flag = 0
     user = storage.get("User", req.get("user_id"))
     for i in storage.all("User").values():
@@ -90,8 +93,6 @@ def review_post(place_id):
             flag = 1
     if flag == 0:
         return ("Missing user_id", 400)
-    if storage.get("User", req.get("user_id")) is None:
-        abort(404)
 
     req["place_id"] = place_id
     new_review.__dict__.update(req)
