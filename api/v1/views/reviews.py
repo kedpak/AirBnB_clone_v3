@@ -78,9 +78,7 @@ def review_post(place_id):
     place = storage.get("Place", place_id)
     if place is None:
         aboart(404)
-    user = storage.get("User", req.get("user_id"))
-    if user is None:
-        abort(404)
+
     if req is None:
         return ("Not a JSON", 400)
     if 'user_id' not in req.keys():
@@ -88,6 +86,9 @@ def review_post(place_id):
     if 'text' not in req.keys():
         return ("Missing test", 400)
 
+    user = storage.get("User", req.get("user_id"))
+    if user is None:
+        abort(404)
     req["place_id"] = place_id
     new_review.__dict__.update(req)
     new_review.save()
