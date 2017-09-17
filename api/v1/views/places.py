@@ -66,7 +66,7 @@ def place_post(city_id):
     req = request.get_json()
 
     city = storage.get("City", city_id)
-    user = storage.get("User", req.get("user_id"))
+
     if city is None:
         abort(404)
     if req is None:
@@ -75,6 +75,8 @@ def place_post(city_id):
         return ("Missing email", 400)
     if 'name' not in req.keys():
         return ("Missing password", 400)
+
+    user = storage.get("User", req.get("user_id"))
     if user is None:
         abort(404)
 
