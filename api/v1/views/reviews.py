@@ -15,11 +15,8 @@ def review_get(place_id):
     """
     new_list = []
     review = storage.all("Review").items()
-    flag1 = 0
-    for i, j in storage.all("Place").items():
-        if place_id == j.id:
-            flag1 = 1
-    if flag1 == 0:
+    place = storage.get("Place", place_id)
+    if place is None:
         abort(404)
 
     for key, value in review:
@@ -78,7 +75,12 @@ def review_post(place_id):
 
     req = request.get_json()
 
-    new_review.__dict__.update(req)
+    place = storage.get("Place", place_id)
+    if place is None:
+        aboart(404)
+    user = storage.get("User", req.get("user_id"))
+    if user is None:
+        abort(404)
     if req is None:
         return ("Not a JSON", 400)
     if 'user_id' not in req.keys():
@@ -86,18 +88,8 @@ def review_post(place_id):
     if 'text' not in req.keys():
         return ("Missing test", 400)
 
-    flag = 0
-    flag2 = 0
-
-    for i, j in storage.all("Place").items():
-        if place_id == j.id:
-            flag = 1
-    for i, j in storage.all("User").items():
-        if new_review.user_id == j.id:
-            flag2 = 1
-    if flag == 0 or flag2 == 0:
-        abort(404)
-
+    req["place_id"] = place_id
+    new_review.__dict__.update(req)
     new_review.save()
     return (jsonify(new_review.to_json()), 201)
 
