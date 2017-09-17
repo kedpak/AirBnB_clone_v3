@@ -75,10 +75,6 @@ def review_post(place_id):
 
     req = request.get_json()
 
-    place = storage.get("Place", place_id)
-    if place is None:
-        aboart(404)
-
     if req is None:
         return ("Not a JSON", 400)
     if 'user_id' not in req.keys():
@@ -86,6 +82,9 @@ def review_post(place_id):
     if 'text' not in req.keys():
         return ("Missing test", 400)
 
+    place = storage.get("Place", place_id)
+    if place is None:
+        aboart(404)
     user = storage.get("User", req.get("user_id"))
     if user is None:
         abort(404)
