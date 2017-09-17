@@ -57,8 +57,6 @@ def place_amenity_post(place_id, amenity_id):
     if place is None:
         abort(404)
     amenity = storage.get("Amenity", amenity_id)
-    if amenity is None:
-        abort(404)
     if amenity in place.amenities:
         return (jsonify(amenity.to_json()))
     place.amenities.append(amenity)
