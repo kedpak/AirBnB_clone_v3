@@ -4,7 +4,7 @@ from flask import abort, jsonify, request
 from models import storage
 from models.base_model import *
 from models.amenity import Amenity
-from models.place import Place, PlaceAmenity
+from models.place import Place
 from models.engine.db_storage import DBStorage
 from api.v1.views import app_views
 
