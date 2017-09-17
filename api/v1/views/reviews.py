@@ -14,12 +14,11 @@ def review_get(place_id):
     get list of all states
     """
     new_list = []
-    review = storage.all("Review").items()
     place = storage.get("Place", place_id)
     if place is None:
         abort(404)
 
-    for key, value in review:
+    for value in place.reviews:
         json_val = value.to_json()
         new_list.append(json_val)
     return (jsonify(new_list))
@@ -77,8 +76,6 @@ def review_post(place_id):
 
     if req is None:
         return ("Not a JSON", 400)
-    if 'user_id' not in req.keys():
-        return ("Missing user_id", 400)
     if 'text' not in req.keys():
         return ("Missing test", 400)
 
@@ -86,8 +83,11 @@ def review_post(place_id):
     if place is None:
         aboart(404)
     user = storage.get("User", req.get("user_id"))
+    if 'user_id' not in req.keys():
+        return ("Missing user_id", 400)
     if user is None:
         abort(404)
+
     req["place_id"] = place_id
     new_review.__dict__.update(req)
     new_review.save()
